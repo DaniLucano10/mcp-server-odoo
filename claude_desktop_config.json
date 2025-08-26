@@ -1,0 +1,17 @@
+{
+	"scale": 0,
+	"locale": "es-419",
+	"userThemeMode": "system",
+	"mcpServers": {
+		"odoo": {
+			"command": "python",
+			"args": ["D:/Dani/odoo-project/mcp-server-odoo/odoo_mcp_final.py"],
+			"env": {
+				"ODOO_URL": "https://odoo-its.itscloud.store",
+				"ODOO_DB": "odoo_db",
+				"ODOO_USER": "admin@itsystems.pe",
+				"ODOO_PASSWORD": "YcCe6jX4G6QTrOg5e75M"
+			}
+		}
+	}
+}
