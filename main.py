@@ -4,14 +4,14 @@ import mcp.types as types
 from mcp.server.models import InitializationOptions
 from config import ODOO_URL, ODOO_DB, ODOO_USER, ODOO_PASSWORD
 from odoo_connector import OdooConnector
-from server import app
+from server import app, set_odoo_connector
 
 odoo = None
 
 def init_odoo_connection():
-    global odoo
     print(f"Conectando a: {ODOO_URL}", file=sys.stderr)
     odoo = OdooConnector(ODOO_URL, ODOO_DB, ODOO_USER, ODOO_PASSWORD)
+    set_odoo_connector(odoo)
 
 async def main():
     print("Iniciando servidor MCP para Odoo...", file=sys.stderr)
