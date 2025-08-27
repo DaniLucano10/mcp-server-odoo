@@ -71,10 +71,10 @@ def init_odoo_connection():
     global odoo
     load_dotenv()
 
-    url = os.getenv('ODOO_URL', 'https://odoo-its.itscloud.store')
-    db = os.getenv('ODOO_DB', 'odoo_db')
-    username = os.getenv('ODOO_USER', 'admin@itsystems.pe')
-    password = os.getenv('ODOO_PASSWORD', 'YcCe6jX4G6QTrOg5e75M')
+    url = os.getenv('ODOO_URL')
+    db = os.getenv('ODOO_DB')
+    username = os.getenv('ODOO_USER')
+    password = os.getenv('ODOO_PASSWORD')
 
     print(f"Conectando a: {url}", file=sys.stderr)
     print(f"Base de datos: {db}", file=sys.stderr)
@@ -130,18 +130,18 @@ async def handle_call_tool(name: str, arguments: Dict[str, Any]) -> List[TextCon
             )
 
             if customers:
-                result = f"📋 **{len(customers)} clientes encontrados:**\n\n"
+                result = f" **{len(customers)} clientes encontrados:**\n\n"
                 for c in customers:
-                    result += f"🏢 **{c['name']}**\n"
+                    result += f" **{c['name']}**\n"
                     if c['email']:
-                        result += f"   📧 {c['email']}\n"
+                        result += f"    {c['email']}\n"
                     if c['phone']:
-                        result += f"   📞 {c['phone']}\n"
+                        result += f"   {c['phone']}\n"
                     if c['city']:
-                        result += f"   🏙️ {c['city']}\n"
+                        result += f"  {c['city']}\n"
                     result += "\n"
             else:
-                result = "📋 **No hay clientes registrados**\n\nPuedes agregar clientes desde Ventas → Clientes en Odoo."
+                result = " **No hay clientes registrados**\n\nPuedes agregar clientes desde Ventas → Clientes en Odoo."
             return [TextContent(type="text", text=result)]
 
         elif name == "get_products":
@@ -149,7 +149,7 @@ async def handle_call_tool(name: str, arguments: Dict[str, Any]) -> List[TextCon
             products = odoo.search_read(
                 'product.product',
                 domain=[['sale_ok', '=', True]],
-                fields=['name', 'list_price', 'qty_available'],
+                fields=['name', 'compare_list_price', 'categ_id'],
                 limit=limit
             )
 
@@ -157,10 +157,10 @@ async def handle_call_tool(name: str, arguments: Dict[str, Any]) -> List[TextCon
                 result = f" **{len(products)} productos encontrados:**\n\n"
                 for p in products:
                     result += f" **{p['name']}**\n"
-                    result += f"    ${p['list_price']}\n"
-                    result += f"    Stock: {p['qty_available']}\n\n"
+                    result += f"    ${p['compare_list_price']}\n"
+                    result += f"    Stock: {p['categ_id']}\n\n"
             else:
-                result = "📦 **No hay productos registrados**\n\nPuedes agregar productos desde Ventas → Productos en Odoo."
+                result = " **No hay productos registrados**\n\nPuedes agregar productos desde Ventas → Productos en Odoo."
             return [TextContent(type="text", text=result)]
 
         elif name == "get_sale_orders":
@@ -194,7 +194,7 @@ async def handle_call_tool(name: str, arguments: Dict[str, Any]) -> List[TextCon
             )
 
             if users:
-                result = f"👥 **{len(users)} usuarios encontrados:**\n\n"
+                result = f" **{len(users)} usuarios encontrados:**\n\n"
                 for u in users:
                     # Determinar estado
                     if not u.get('active', True):
@@ -204,13 +204,13 @@ async def handle_call_tool(name: str, arguments: Dict[str, Any]) -> List[TextCon
                     else:
                         estado = " Nunca se conectó"
                     
-                    result += f"👤 **{u['name']}**\n"
-                    result += f"   📧 {u['login']}\n"
+                    result += f" **{u['name']}**\n"
+                    result += f"    {u['login']}\n"
                     if u['email'] and u['email'] != u['login']:
-                        result += f"   📧 Email: {u['email']}\n"
+                        result += f"    Email: {u['email']}\n"
                     result += f"   {estado}\n\n"
             else:
-                result = "👥 **No hay usuarios registrados**"
+                result = " **No hay usuarios registrados**"
             return [TextContent(type="text", text=result)]
 
         else:
@@ -226,7 +226,7 @@ async def main():
     print("Iniciando servidor MCP para Odoo...", file=sys.stderr)
     try:
         init_odoo_connection()
-        print("📡 Servidor MCP listo!", file=sys.stderr)
+        print(" Servidor MCP listo!", file=sys.stderr)
 
         async with stdio_server() as (read_stream, write_stream):
             await app.run(
@@ -258,7 +258,7 @@ async def main():
 if __name__ == "__main__":
     try:
         print("=" * 60, file=sys.stderr)
-        print("🔧 SERVIDOR MCP ODOO - ITS Systems", file=sys.stderr)
+        print(" SERVIDOR MCP ODOO - ITS Systems", file=sys.stderr)
         print("=" * 60, file=sys.stderr)
         asyncio.run(main())
     except KeyboardInterrupt:

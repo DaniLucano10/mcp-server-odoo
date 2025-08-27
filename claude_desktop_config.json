@@ -5,7 +5,7 @@
 	"mcpServers": {
 		"odoo": {
 			"command": "python",
-			"args": ["D:/Dani/odoo-project/mcp-server-odoo/odoo_mcp_final.py"],
+			"args": ["C:/Users/ITS/Documents/MCP/mcp-server-odoo/odoo_mcp_final.py"],
 			"env": {
 				"ODOO_URL": "https://odoo-its.itscloud.store",
 				"ODOO_DB": "odoo_db",
