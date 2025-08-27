@@ -4,7 +4,7 @@ def get_users(odoo, limit=50):
     users = odoo.search_read(
         'res.users',
         domain=[],
-        fields=['name', 'login', 'email', 'active', 'last_activity_time'],
+        fields=['name', 'login', 'email', 'active'],
         limit=limit
     )
 
