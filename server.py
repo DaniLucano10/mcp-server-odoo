@@ -6,6 +6,7 @@ from tools.products import get_products
 from tools.sale_orders import get_sale_orders
 from tools.users import get_users
 from tools.invoices import get_invoices
+from tools.employees import get_employees
 
 app = Server("odoo-mcp-final")
 
@@ -21,6 +22,7 @@ async def handle_list_tools():
         Tool(name="get_sale_orders", description="Obtener órdenes de venta", inputSchema={"type":"object","properties":{"limit":{"type":"number","default":20}}}),
         Tool(name="get_users", description="Obtener lista de usuarios", inputSchema={"type":"object","properties":{"limit":{"type":"number","default":50}}}),
         Tool(name="get_invoices", description="Obtener lista de facturas", inputSchema={"type":"object","properties":{"limit":{"type":"number","default":20}}}),
+        Tool(name="get_employees", description="Obtener lista de empleados", inputSchema={"type":"object","properties":{"limit":{"type":"number","default":50}}}),
     ]
 
 @app.call_tool()
@@ -39,5 +41,7 @@ async def handle_call_tool(name, arguments):
         return get_users(odoo, limit)
     elif name == "get_invoices":
         return get_invoices(odoo, limit)
+    elif name == "get_employees":
+        return get_employees(odoo, limit)
     else:
         return [types.TextContent(type="text", text=f"Herramienta '{name}' no encontrada")]
