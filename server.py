@@ -23,6 +23,8 @@ async def handle_list_tools():
         Tool(name="get_users", description="Obtener lista de usuarios", inputSchema={"type":"object","properties":{"limit":{"type":"number","default":50}}}),
         Tool(name="get_invoices", description="Obtener lista de facturas", inputSchema={"type":"object","properties":{"limit":{"type":"number","default":20}}}),
         Tool(name="get_employees", description="Obtener lista de empleados", inputSchema={"type":"object","properties":{"limit":{"type":"number","default":50}}}),
+        Tool(name="get_purchases", description="Obtener órdenes de compra", inputSchema={"type":"object","properties":{"limit":{"type":"number","default":20}}}),
+        Tool(name="get_stock", description="Obtener niveles de stock", inputSchema={"type":"object","properties":{"limit":{"type":"number","default":50}}}),
     ]
 
 @app.call_tool()
@@ -43,5 +45,9 @@ async def handle_call_tool(name, arguments):
         return get_invoices(odoo, limit)
     elif name == "get_employees":
         return get_employees(odoo, limit)
+    elif name == "get_purchases":
+        return get_purchases(odoo, limit)
+    elif name == "get_stock":
+        return get_stock(odoo, limit)
     else:
         return [types.TextContent(type="text", text=f"Herramienta '{name}' no encontrada")]
